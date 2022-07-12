@@ -9,6 +9,7 @@ A full interactive Docs UI can be checked  at http://localhost:8000/docs once yo
 ## Install
 
 
+    cd pool_api
     pip3 install -r requirments.txt
 
 ## Run the App
