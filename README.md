@@ -11,11 +11,11 @@ A Full Docs URL can be checked  at http://localhost:8000/docs
 
     pip3 install -r requirments.txt
 
-##Run the App
+## Run the App
 
     uvicorn main:app --reload
 
 
-##Rest API Documentations
+## Rest API Documentations
 
     open docs.pdf
