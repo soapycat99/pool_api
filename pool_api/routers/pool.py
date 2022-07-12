@@ -38,20 +38,21 @@ def insert_or_append(pool: json_schemas.Pool, response: Response, df: pd.DataFra
 
 
 @router.post('/{poolId}', status_code=status.HTTP_200_OK)
-def quantile_query(poolId: int, percentile: int, df: pd.DataFrame = Depends(get_df)):
+def quantile_query(poolId: int, percentile: float, df: pd.DataFrame = Depends(get_df)):
     str_ls = df.loc[poolId][0].split(' ')
     int_ls = [int(x) for x in str_ls]
     ls_len = len(int_ls)
     rank = percentile / 100 * (ls_len - 1) + 1
+    int_ls = sorted(int_ls)
 
     if rank.is_integer():
         rank = int(rank)
-        p_num = int_ls[rank]
+        p_num = int_ls[rank-1]
 
     else:
         int_part, frac_part = divmod(rank, 1)
         int_part = int(int_part)
-        p_num = int_part + rank * (int_ls[int_part+1] - int_ls[int_part])
+        p_num = frac_part * (int_ls[int_part] - int_ls[int_part-1]) + int_ls[int_part-1]
 
     return {'calculated_quantile': p_num,
             'total_count': ls_len}
